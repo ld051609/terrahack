@@ -79,7 +79,7 @@ export default function App() {
       <CameraView style={styles.camera}ref={cameraRef}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <Text style={styles.text}>Take Picture</Text>
+            <Text style={styles.text}>Scan</Text>
           </TouchableOpacity>
         </View>
       </CameraView>

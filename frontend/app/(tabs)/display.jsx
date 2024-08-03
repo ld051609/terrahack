@@ -1,25 +1,49 @@
 import React from 'react'
 
-import { SafeAreaView, StyleSheet, Text, SafeAreaView } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
 
 function display() {
 
   const styles = StyleSheet.create({
     container: {
-      backgroundColor: "#508D4E",
+      backgroundColor: "#80AF81",
       flex: 1,
-      alignItems: "center",
       justifyContent: "flex-start",
     },
     text: {
-      color: "white"
-    }
+      color: "white",
+      fontSize: "45px",
+      fontWeight: "bold",
+      marginLeft: 20,
+      marginTop: 20
+    },
+    subhead:{
+      color: "white",
+      marginLeft: 20,
+      marginTop: 20,
+      fontSize: "30px"
+
+    } 
 
   })
   return (
     <SafeAreaView style = {styles.container}>
-      <Text style = {styles.text}>this is where you can see the results</Text>
-
+       <Text style = {styles.text}>
+        Results
+      </Text>
+      
+      <ScrollView>
+        <Text style = {styles.subhead}>
+          Found Ingredients:
+        </Text>
+        <Text style = {styles.subhead}>
+          CO2e:
+        </Text>
+        <Text style = {styles.subhead}>
+          Your meals score:
+        </Text>
+      
+      </ScrollView>
     </SafeAreaView>
   )
 }

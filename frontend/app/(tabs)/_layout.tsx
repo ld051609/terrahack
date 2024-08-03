@@ -3,7 +3,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { TabBarIcon } from '@/components/TabBarIcon';
+import {Ionicons} from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -20,17 +20,25 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+          tabBarIcon: ({ color, focused, size }) => (
+           <Ionicons
+            name={focused ? 'home' : 'home-outline'}
+            color={color}
+            size={size}
+           />
           ),
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          title: 'Scan',
+          tabBarIcon: ({ color, focused, size }) => (
+          <Ionicons
+            name={focused ? 'camera' : 'camera-outline'}
+            color={color}
+            size={size}
+           />  
           ),
         }}
       />
@@ -39,9 +47,20 @@ export default function TabLayout() {
         name="display"
         options={{
           title: 'Display',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
+          tabBarIcon: ({ color, focused, size }) => (
+          <Ionicons
+            name={focused ? 'bar-chart' : 'bar-chart-outline'}
+            color={color}
+            size={size}
+           />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="loading"
+        options={{
+          title: 'loading',
+          href: null,
         }}
       />
     </Tabs>
