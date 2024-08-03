@@ -1,9 +1,12 @@
+//default home page
+
 import React, { Component } from "react";
-import { Button, SafeAreaView, StyleSheet, Alert, Text } from "react-native";
+import { Button, View, SafeAreaView, StyleSheet, Alert, Text , Touchable} from "react-native";
 
 //Importing the installed libraries
 import * as FS from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class App extends Component {
   constructor(props) {
@@ -90,7 +93,11 @@ export default class App extends Component {
 
   render() {
     return (
+
       <SafeAreaView style={styles.container}>
+        <Text>
+          Welcome to Food Scanner
+        </Text>
         {this.state.cameraRollPer ? (
           <Button
             title="Pick From Gallery"
@@ -109,7 +116,7 @@ export default class App extends Component {
           <Text>Camera Roll Permission Required ! </Text>
         )}
       </SafeAreaView>
-    );
+  )
   }
 }
 
