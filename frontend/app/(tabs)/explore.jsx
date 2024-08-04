@@ -92,7 +92,7 @@ export default function App({navigation}) {
     <View style={styles.container}>
       <CameraView style={styles.camera}ref={cameraRef}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={}>
+          <TouchableOpacity style={styles.button} onPress={takePicture}>
             <Text style={styles.text}>Scan</Text>
           </TouchableOpacity>
         </View>
