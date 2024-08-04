@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
     borderColor: '#80AF81',
     borderWidth: 2,
     borderRadius: 15,
-    padding: 2
+    padding: 20,
+    marginBottom: 20
   },
   image:{
     width: 200,
