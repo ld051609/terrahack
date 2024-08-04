@@ -30,7 +30,7 @@ function display() {
 
   })
   const [data, setData] = useState("");
-  const apiURL = "https://b7f2-141-117-116-145.ngrok-free.app"
+  const apiURL = "https://b7f2-141-117-116-145.ngrok-free.app/upload"
 
   useEffect(() => {
     // Define an async function to fetch the string data
@@ -73,7 +73,7 @@ function display() {
   return (
     <SafeAreaView style = {styles.container}>
        <Text style = {styles.text}>
-        Results 
+        Results {data}
       </Text>
       
       <ScrollView contentContainerStyle={styles.results}>

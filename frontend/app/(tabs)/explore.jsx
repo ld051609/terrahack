@@ -41,11 +41,11 @@ export default function App() {
   };
   const toServer = async (base64) => {
     let schema = 'http://';
-    let host = '192.168.1.5';
+    let host = 'b7f2-141-117-116-145.ngrok-free.app';
     let route = '/upload';
     let port = '5000';
     let content_type = 'image/jpeg';
-    let url = schema + host + ':' + port + route;
+    let url = "https://5a74-141-117-116-145.ngrok-free.app/upload"
 
     let response = await fetch(url, {
       method: 'POST',

@@ -1,36 +1,55 @@
-from flask import Flask, request, jsonify
-import requests
+from flask import Flask, Response, request, jsonify
+from io import BytesIO
+import base64
+from flask_cors import CORS, cross_origin
 import os
+import sys
 from dotenv import load_dotenv
-
-# Load environment variables from .env file
 load_dotenv()
+
+
+
 
 app = Flask(__name__)
 
-# Azure Computer Vision API endpoint and key
-AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
-AZURE_KEY = os.getenv("AZURE_KEY")
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-@app.route('/upload', methods=['POST'])
-def upload_image():
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part"}), 400
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
+@app.route("/upload", methods=['POST'])
+def upload():
+    if request.method == "POST":
+        # Get the Base64 encoded image data
+        data = request.get_json()  # Expecting JSON payload
+        base64_data = data.get('base64', '')
 
-    # Send the image file to Azure Computer Vision API
-    analyze_url = f"{AZURE_ENDPOINT}/vision/v3.2/describe"
-    headers = {
-        'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': AZURE_KEY
-    }
+        # Decode the Base64 data
+        if base64_data:
+            image_data = base64.b64decode(base64_data)
 
-    response = requests.post(analyze_url, headers=headers, data=file.read())
+            # Save the image to a file
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'image.jpeg')
+            with open(file_path, 'wb') as out_file:
+                out_file.write(image_data)
 
-    return jsonify(response.json()), response.status_code
+            # Call gemini endpoint to get the information based on the input photo
+            image_data = file_path
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+
+            return jsonify({"message": "Image received and saved."}), 200
+        else:
+            return jsonify({"message": "No data found."}), 400
+
+
+
+
+@app.route("/", methods=['GET', 'POST'])
+def index():
+    return "Hello, World!"
+
+
+if __name__ == '__main':
+    app.run(host='0.0.0.0', port=5000)
