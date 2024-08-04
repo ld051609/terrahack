@@ -43,6 +43,7 @@ def azure_vision_analysis(image_data):
     }
     response = requests.post(analyze_url, headers=headers, data=image_data)
     if response.status_code == 200:
+        print(response.json())
         return response.json()
     else:
         return {"error": "Failed to analyze image"}
@@ -152,11 +153,15 @@ def upload():
                 print("Emission Results:", emission_results)
 
                 # Return results
-                
+                match = re.search(r'Total CO2 Emissions:\s*([\d.]+)\s*kg', emission_results)
+                if match:
+                  total_co2_emission = match.group(1)
+
                 return jsonify({
                     "azure_description": description,
                     "gemini_ingredient_quantities": ingredient_quantities,
-                    "emission_results": emission_results
+                    "emission_results": emission_results, 
+                    "total_co2": total_co2_emission
                 }), 200
             else:
                 return jsonify({"message": "Failed to analyze the image with Azure Vision."}), 400
