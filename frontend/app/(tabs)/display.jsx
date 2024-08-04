@@ -48,7 +48,7 @@ function display() {
         setData(result);
       } catch (error) {
         // Handle errors
-        setError(error.message);
+        console.log(error)
       }
     };
 
@@ -56,19 +56,7 @@ function display() {
     fetchData();
   }, []); // Empty dependency array ensur
 
-  const results = [
-    {
-      id: 1,
-      name: "chips",
-      CO2e: "2",
-      score: "8"
-    },
-    {
-      id: 2,
-      name: "donut",
-      CO2e: "24",
-      score: "1"
-    },
+  const results = ["Test","test"
   ]
   return (
     <SafeAreaView style = {styles.container}>
@@ -79,25 +67,7 @@ function display() {
       <ScrollView contentContainerStyle={styles.results}>
         <View style = {styles.results}>
           
-          {results.map((result) => {
-            return(
-            <Text style={styles.subhead} key={result.key}>{result.name}</Text>
-            )
-          })}
         </View>
-
-        
-        
-        {/* <Text style = {styles.subhead}>
-          Detected Food:
-          {data}
-        </Text>
-        <Text style = {styles.subhead}>
-          CO2e:
-        </Text>
-        <Text style = {styles.subhead}>
-          Your Meal Score:
-        </Text> */}
       </ScrollView>
     </SafeAreaView>
   )

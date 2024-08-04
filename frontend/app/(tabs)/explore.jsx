@@ -2,14 +2,19 @@
 
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { useState, useRef } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View, Image, Alert } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import * as FS from "expo-file-system";
-export default function App() {
+export default function App({navigation}) {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = useCameraPermissions();
   const [photoUri, setPhotoUri] = useState(null);
   const [mediaPermission, requestMediaPermission] = MediaLibrary.usePermissions();
+
+
+  const [desc, setDesc] = useState("")
+  const [results, setResult] = useState("")
+
 
   if (!permission || !mediaPermission) {
     return <View />;
@@ -39,13 +44,9 @@ export default function App() {
     });
     return base64;
   };
+  
   const toServer = async (base64) => {
-    let schema = 'http://';
-    let host = 'b7f2-141-117-116-145.ngrok-free.app';
-    let route = '/upload';
-    let port = '5000';
-    let content_type = 'image/jpeg';
-    let url = "https://5a74-141-117-116-145.ngrok-free.app/upload"
+    let url = "https://688c-141-117-116-145.ngrok-free.app/upload"
 
     let response = await fetch(url, {
       method: 'POST',
@@ -54,9 +55,21 @@ export default function App() {
       },
       body: JSON.stringify({ base64: base64 }),
     });
+    if(!response.ok){
+      return JSON({message: "NOT ok"})
+    }
 
     const responseData = await response.json();
     console.log(responseData);
+
+    setDesc(responseData['azure_description'])
+    setResult(responseData['emission_results'])
+    Alert("Information is processed successfully")
+
+    // Navigate to display page
+    navigation.navigate("display")
+
+    
   };
 
   const takePicture = async () => {
@@ -74,11 +87,12 @@ export default function App() {
     }
   };
 
+
   return (
     <View style={styles.container}>
       <CameraView style={styles.camera}ref={cameraRef}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
+          <TouchableOpacity style={styles.button} onPress={}>
             <Text style={styles.text}>Scan</Text>
           </TouchableOpacity>
         </View>
