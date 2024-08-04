@@ -1,57 +1,69 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-
-import { SafeAreaView, View, ScrollView, StyleSheet, Text } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, View, ScrollView, StyleSheet, Text, Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
-function display() {
+function Display() {
   const route = useRoute();
-  const { description, emissionResults } = route.params;
-
-
-
+  const { description, emissionResults } = route.params || {};
   
+  const [desc, setDesc] = useState("");
+  const [emission, setEmission] = useState("");
+
+  useEffect(() => {
+    if (description && emissionResults) {
+      setDesc(description);
+      setEmission(emissionResults);
+    } else {
+      setDesc("No description available");
+      setEmission("No emission results available");
+    }
+  }, [description, emissionResults]);
+
   return (
-    <SafeAreaView style = {styles.container}>
-       <Text style = {styles.text}>
-      </Text>
-      
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.results}>
-        <View style = {styles.results}>
-          <Text>Description: {description}</Text>
-          <Text>Emission Results: {emissionResults}</Text>
-          
+      <Image
+              source={require('../../assets/images/diet.png')}
+              style={styles.image}
+            >
+            </Image>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>Description: {desc}</Text>
+          <Text style={styles.text}>Emission Results: {emission}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#80AF81",
+    display: "flex",
     flex: 1,
-    justifyContent: "flex-start",
+    alignItems: "center"
+
+  },
+  results: {
+    padding: 20,
+    borderWidth: 2,
+    borderRadius: 15,
+    borderColor: "white",
+    margin: 15,
+    flex: 1,
+    alignItems: "center"
   },
   text: {
     color: "white",
-    fontSize: "45px",
+    fontSize: 18,
     fontWeight: "bold",
-    marginLeft: 20,
-    marginTop: 20
+    marginBottom: 10,
   },
-  subhead:{
-    color: "white",
-    marginLeft: 20,
-    marginTop: 20,
-    fontSize: "30px"
+  image: {
+    width: 150,
+    height: 150,
+    marginBottom: 40
+  }
+});
 
-  },
-
-
-
-})
-export default display
-  
-  
- 
+export default Display;
