@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, Image, Alert } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { Button, StyleSheet, Text, TouchableOpacity, View, Image, Alert, ActivityIndicator } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as FS from 'expo-file-system';
@@ -12,9 +12,16 @@ export default function App() {
   const [mediaPermission, requestMediaPermission] = MediaLibrary.usePermissions();
   const [desc, setDesc] = useState("");
   const [results, setResult] = useState("");
-  const [totalEmissions, setTotalEmissions] = useState(0)
+  const [totalEmissions, setTotalEmissions] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (!loading && photoUri) {
+      setPhotoUri(null);
+    }
+  }, [loading]);
 
   if (!permission || !mediaPermission) {
     return <View />;
@@ -51,7 +58,8 @@ export default function App() {
 
   const toServer = async (base64) => {
     try {
-      let url = "https://38e1-141-117-116-145.ngrok-free.app/upload";
+      setLoading(true);
+      let url = "https://d625-141-117-116-145.ngrok-free.app/upload";
 
       let response = await fetch(url, {
         method: 'POST',
@@ -71,18 +79,20 @@ export default function App() {
 
       setDesc(responseData['azure_description']);
       setResult(responseData['emission_results']);
-      setTotalEmissions(responseData['total_co2'])
+      setTotalEmissions(responseData['total_co2']);
       Alert.alert("Success", "Information is processed successfully");
 
       navigation.navigate('display', {
         image: photoUri,
         description: responseData['azure_description'],
         emissionResults: responseData['emission_results'],
-        total: responseData['total_co2']
+        total: responseData['total_co2'],
       });
     } catch (error) {
       console.error("Failed to send data to the server", error);
       Alert.alert("Error", "Failed to process the image. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,7 +127,13 @@ export default function App() {
         </View>
       </CameraView>
 
-      {photoUri && (
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )}
+
+      {photoUri && !loading && (
         <View style={styles.imageContainer}>
           <Image source={{ uri: photoUri }} style={styles.image} />
         </View>
@@ -170,4 +186,10 @@ const styles = StyleSheet.create({
     height: 300,
     resizeMode: 'contain',
   },
-});
+  loadingContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+})
