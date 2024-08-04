@@ -4,27 +4,23 @@ import React, { useEffect, useState } from "react";
 import { Image, Button, View, SafeAreaView, StyleSheet, Alert, Text , Touchable} from "react-native";
 
 export default function App(){
-    const info = [
-      "Food scanner is used to scan your meals and give you information on the carbon footprint of the food you eat! Start scanning now or upload past meals."
-    ]
-
+   
   
     return (
 
       <SafeAreaView style={styles.container}>
           <Text style = {styles.header}>
-            Welcome!
+            Welcome to EcoEats!
           </Text>
           
           <View style={styles.paragraphContainer}>
             <Text style = {styles.paragraph}>
-              {info}
-            </Text>
-            {/* <Image
+            Discover the Environmental Impact of Your Meals! Our AI app allows you to scan your food to understand its carbon footprint and make more sustainable choices.             </Text>
+            <Image
               source={require('../../assets/images/diet.png')}
               style={styles.image}
             >
-            </Image> */}
+            </Image>
           </View>
         
       </SafeAreaView>
@@ -48,7 +44,9 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     color: "#80AF81",
-    fontSize: "20px"
+    fontSize: "18px",
+    letterSpacing: '0.5px',
+    textAlign: 'center'
   },
   paragraphContainer: {
     paddingTop: 20,
@@ -62,8 +60,8 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   image:{
-    width: 200,
-    height: 200,
-    marginTop: 100
+    width: 180,
+    height: 180,
+    marginTop:30
   }
 });

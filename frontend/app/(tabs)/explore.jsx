@@ -5,16 +5,26 @@ import { useState, useRef } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View, Image, Alert } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import * as FS from "expo-file-system";
-export default function App({navigation}) {
+import { useNavigation } from '@react-navigation/native';
+
+export default function App() {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = useCameraPermissions();
   const [photoUri, setPhotoUri] = useState(null);
   const [mediaPermission, requestMediaPermission] = MediaLibrary.usePermissions();
 
+  const navigation = useNavigation();
+
 
   const [desc, setDesc] = useState("")
   const [results, setResult] = useState("")
 
+  const handleNavigate = () => {
+    navigation.navigate('display', {
+      description: 'A plate of chips',
+      emissionResults: 'CO2 emissions details here',
+    });
+  };
 
   if (!permission || !mediaPermission) {
     return <View />;
@@ -92,7 +102,7 @@ export default function App({navigation}) {
     <View style={styles.container}>
       <CameraView style={styles.camera}ref={cameraRef}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
+          <TouchableOpacity style={styles.button} onPress={handleNavigate}>
             <Text style={styles.text}>Scan</Text>
           </TouchableOpacity>
         </View>

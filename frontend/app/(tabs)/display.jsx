@@ -2,70 +2,24 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 
 import { SafeAreaView, View, ScrollView, StyleSheet, Text } from 'react-native'
+import { useRoute } from '@react-navigation/native';
 
 function display() {
-
-  const styles = StyleSheet.create({
-    container: {
-      backgroundColor: "#80AF81",
-      flex: 1,
-      justifyContent: "flex-start",
-    },
-    text: {
-      color: "white",
-      fontSize: "45px",
-      fontWeight: "bold",
-      marginLeft: 20,
-      marginTop: 20
-    },
-    subhead:{
-      color: "white",
-      marginLeft: 20,
-      marginTop: 20,
-      fontSize: "30px"
-
-    },
+  const route = useRoute();
+  const { description, emissionResults } = route.params;
 
 
 
-  })
-  const [data, setData] = useState("");
-  const apiURL = "https://b7f2-141-117-116-145.ngrok-free.app/upload"
-
-  useEffect(() => {
-    // Define an async function to fetch the string data
-    const fetchData = async () => {
-      try {
-        // Fetch data from the API
-        const response = await fetch(apiURL)
-        // Check if the response is ok
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // Get the text content
-        const result = await response.text();
-        // Update state with the fetched string
-        setData(result);
-      } catch (error) {
-        // Handle errors
-        console.log(error)
-      }
-    };
-
-    // Call the fetch function
-    fetchData();
-  }, []); // Empty dependency array ensur
-
-  const results = ["Test","test"
-  ]
+  
   return (
     <SafeAreaView style = {styles.container}>
        <Text style = {styles.text}>
-        Results {data}
       </Text>
       
       <ScrollView contentContainerStyle={styles.results}>
         <View style = {styles.results}>
+          <Text>Description: {description}</Text>
+          <Text>Emission Results: {emissionResults}</Text>
           
         </View>
       </ScrollView>
@@ -73,6 +27,30 @@ function display() {
   )
 }
 
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#80AF81",
+    flex: 1,
+    justifyContent: "flex-start",
+  },
+  text: {
+    color: "white",
+    fontSize: "45px",
+    fontWeight: "bold",
+    marginLeft: 20,
+    marginTop: 20
+  },
+  subhead:{
+    color: "white",
+    marginLeft: 20,
+    marginTop: 20,
+    fontSize: "30px"
+
+  },
+
+
+
+})
 export default display
   
   
